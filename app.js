@@ -1,4 +1,4 @@
-var audioCtx = new(window.AudioContext)();
+const audioCtx = new AudioContext();
 
 // ...
 
@@ -10,8 +10,24 @@ var dataArray = new Uint8Array(bufferLength);
 analyser.getByteTimeDomainData(dataArray);
 
 // Connect the source to be analysed
-const source = 
-source.connect(analyser);
+setupContext();
+async function setupContext(){
+  const stream = await getMic();
+  if (audioCtx.state === "suspended"){
+    await audioCtx.resume();
+  };
+  const source = audioCtx.createMediaStreamSource(stream)
+  source.connect(analyser);
+}
+function getMic(){
+  return navigator.mediaDevices.getUserMedia({
+    audio: {
+      latency: 0
+    }
+  });
+}
+
+
 
 // Get a canvas defined with ID "oscilloscope"
 var canvas = document.getElementById("oscilloscope");
