@@ -10,24 +10,30 @@ var dataArray = new Uint8Array(bufferLength);
 analyser.getByteTimeDomainData(dataArray);
 
 // Connect the source to be analysed
-setupContext();
-async function setupContext(){
-  const stream = await getMic();
-  if (audioCtx.state === "suspended"){
-    await audioCtx.resume();
+loadSound();
+function loadSound() {
+  const request = new XMLHttpRequest();
+  request.open("GET", "http://localhost:3000/stream/--_94TUDHxk", true);
+  request.responseType = "arraybuffer";
+
+  request.onload = function () {
+      const Data = request.response;
+      console.log(Data)
+      process(Data);
   };
-  const source = audioCtx.createMediaStreamSource(stream)
+
+  request.send();
+}
+
+function process(Data) {
+  const source = audioCtx.createBufferSource(); // Create Sound Source
+  audioCtx.decodeAudioData(Data, function (buffer) {
+      source.buffer = buffer;
+      source.connect(audioCtx.destination);
+      source.start(audioCtx.currentTime);
+  });
   source.connect(analyser);
 }
-function getMic(){
-  return navigator.mediaDevices.getUserMedia({
-    audio: {
-      latency: 0
-    }
-  });
-}
-
-
 
 // Get a canvas defined with ID "oscilloscope"
 var canvas = document.getElementById("oscilloscope");
