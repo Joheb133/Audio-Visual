@@ -9,6 +9,17 @@
     <script src="app.js" defer></script>
 </head>
 <body>
-    <canvas id="oscilloscope" class="listener"></canvas>
+    <canvas id="canvas" class="listener"></canvas>
+    <div>
+        <button id="play">Play</button>
+        <button id="pause">Pause</button>
+        <input type="range" id="volume" class="control-volume" min="0" max="2" value="1" list="gain-vals" step="0.01" data-action="volume" />
+        <datalist id="gain-vals">
+            <option value="0" label="min">
+            <option value="2" label="max">
+        </datalist>
+        <label for="volume">VOL</label>
+    </div>
+    <audio src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3" crossorigin="anonymous" ></audio>
 </body>
 </html>
