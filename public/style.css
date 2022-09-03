@@ -1,4 +1,51 @@
-body{
+body {
     padding: 0;
     margin: 0;
+    background-color: #1B1B1B;
+}
+
+.player {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    height: 96px;
+    justify-content: center;
+    align-items: center;
+    background-color: #0f0f0f;
+}
+
+.search-bar-wrap {
+    width: 25%;
+    text-align: left;
+}
+
+.music-controls-wrap {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    align-items: center;
+}
+
+.progress-bar{
+    width: 100%;
+}
+
+.progress-bar input{
+    width: 100%;
+}
+
+.progress-bar span{
+    font-family: 'Courier New', Courier, monospace; 
+    color:#ebebeb;
+}
+#song-current-time{
+    float: left;
+}
+#song-duration{
+    float: right;
+}
+.volume-wrap {
+    width: 25%;
+    text-align: center;
 }

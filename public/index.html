@@ -13,20 +13,29 @@
 
 <body>
     <canvas id="canvas" class="listener"></canvas>
-    <div>
-        <button id="play">Pause</button>
-        <input type="range" id="volume" class="control-volume" min="0" max="2" value="1" list="gain-vals" step="0.01"
-            data-action="volume" />
-        <datalist id="gain-vals">
-            <option value="0" label="min">
-            <option value="2" label="max">
-        </datalist>
-        <label for="volume">VOL</label>
-    </div>
-    <div>
-        <label for="search-bar">Search Video</label>
-        <input type="text" id="search-bar" placeholder="www.youtube.com/watch?v=5J-1uAnzyV8" value="https://www.youtube.com/watch?v=5J-1uAnzyV8">
-        <button type="button" id="search-button">Search</button>
+    <div class="player">
+        <div class="search-bar-wrap">
+            <input type="text" id="search-bar" placeholder="www.youtube.com/watch?v=5J-1uAnzyV8"
+                value="https://www.youtube.com/watch?v=4fW6TvEM0m0">
+            <button type="button" id="search-button">Search</button>
+        </div>
+        <div class="music-controls-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" id="play" width="32px" height="32px"
+                preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16">
+                <path id="play-path" fill="#E6E6E6"
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
+            </svg>
+            <div class="progress-bar">
+                <span>0:00</span>
+                <span id="song-duration">0:00</span>
+                <input type="range" disabled id="progress" min="0" value="0">
+            </div>
+        </div>
+        <div class="volume-wrap">
+            <!-- <label for="volume">VOL</label> -->
+            <input type="range" id="volume" class="control-volume" min="0" max="2" value="0.25" list="gain-vals"
+                step="0.01" data-action="volume" />
+        </div>
     </div>
 </body>
 

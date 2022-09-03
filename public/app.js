@@ -1,4 +1,6 @@
-//audio init
+import { loadSound } from "./utils/load-sound.js";
+
+// audio init
 const audioCtx = new AudioContext();
 
 const gainNode = audioCtx.createGain();
@@ -11,6 +13,8 @@ const dataArray = new Uint8Array(bufferLength);
 analyser.getByteTimeDomainData(dataArray);
 
 export {audioCtx, gainNode, analyser};
+
+//loadSound("5J-1uAnzyV8")
 
 /* canvas */
 // Get a canvas defined with ID "oscilloscope"
