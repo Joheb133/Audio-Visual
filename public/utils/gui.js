@@ -41,16 +41,17 @@ let searching = false;
 let searchVal;
 
 searchBtn.addEventListener("click", () => {
-  if (sourceCount >= 1) {
-    sourceCount--;
-    pause();
-    source.stop();
-  };
 
   searchVal = searchBar.value;
   if (searchVal.match("youtube.com/watch\\?v=")) {
     let videoCode = searchVal.slice(searchVal.indexOf("youtube.com/watch?v=") + "youtube.com/watch?v=".length, searchVal.length);
     if (!searching && videoCode.length > 4) {
+      if (sourceCount >= 1) {
+        sourceCount--;
+        pause();
+        source.stop();
+      };
+      
       console.log("Searching");
       searching = true;
       //need an import
@@ -60,6 +61,7 @@ searchBtn.addEventListener("click", () => {
         songDurationEl.innerText = new Date(1000 * source.buffer.duration).toISOString().substring(14, 19)
         sourceCount++;
         searching = false;
+        searchBar.value = "";
       });
     } else {
       console.log("Searching/invalid link");
