@@ -16,21 +16,39 @@ playBtn.addEventListener("click", () => {
 });
 
 function play() {
-  console.log("play")
   audioCtx.resume(); //import
   playPathEl.setAttribute("d", "M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z");//pause
   playing = true;
 }
 function pause() {
-  console.log("pause")
   audioCtx.suspend();
   playPathEl.setAttribute("d", "M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z");//play
   playing = false;
 }
+
 //progress bar
 const progressBar = document.getElementById("progress");
+const songCurrentTimeEl = document.getElementById("song-current-time");
 const songDurationEl = document.getElementById("song-duration");
 
+function convertSeconds(seconds) {
+  return new Date(1000 * seconds).toISOString().substring(14, 19)
+}
+
+function timeElapsed() {
+  const startTime = audioCtx.currentTime;
+  let pastTime = 0;
+  const time = setInterval(() => {
+    let currentTime = audioCtx.currentTime - startTime;
+    if (currentTime !== pastTime) {
+      songCurrentTimeEl.innerText = convertSeconds(currentTime)
+      if (currentTime > source.buffer.duration) {
+        clearInterval(time)
+      }
+    }
+    pastTime = currentTime;
+  }, 1000)
+}
 
 
 //search-bar
@@ -46,19 +64,16 @@ searchBtn.addEventListener("click", () => {
   if (searchVal.match("youtube.com/watch\\?v=")) {
     let videoCode = searchVal.slice(searchVal.indexOf("youtube.com/watch?v=") + "youtube.com/watch?v=".length, searchVal.length);
     if (!searching && videoCode.length > 4) {
-      if (sourceCount >= 1) {
-        sourceCount--;
-        pause();
-        source.stop();
-      };
-      
+      if (sourceCount >= 1) { sourceCount--; pause(); source.stop(); };
+
       console.log("Searching");
       searching = true;
       //need an import
       loadSound(videoCode, function () {
         play()
+        timeElapsed();
         console.log("Playing audio");
-        songDurationEl.innerText = new Date(1000 * source.buffer.duration).toISOString().substring(14, 19)
+        songDurationEl.innerText = convertSeconds(source.buffer.duration)
         sourceCount++;
         searching = false;
         searchBar.value = "";

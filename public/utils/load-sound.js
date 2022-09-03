@@ -22,7 +22,7 @@ async function process(Data) {
         source.connect(gainNode);
         gainNode.connect(audioCtx.destination);
         source.connect(analyser);
-        source.start(audioCtx.currentTime);
+        source.start(audioCtx.currentTime, 0, source.duration);
     })
 };
 
