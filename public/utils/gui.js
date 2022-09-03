@@ -37,6 +37,7 @@ const songDurationEl = document.getElementById("song-duration");
 const searchBtn = document.getElementById("search-button");
 const searchBar = document.getElementById("search-bar");
 let sourceCount = 0;
+let searching = false;
 let searchVal;
 
 searchBtn.addEventListener("click", () => {
@@ -49,17 +50,19 @@ searchBtn.addEventListener("click", () => {
   searchVal = searchBar.value;
   if (searchVal.match("youtube.com/watch\\?v=")) {
     let videoCode = searchVal.slice(searchVal.indexOf("youtube.com/watch?v=") + "youtube.com/watch?v=".length, searchVal.length);
-    if (videoCode.length > 1) {
+    if (!searching && videoCode.length > 4) {
       console.log("Searching");
+      searching = true;
       //need an import
       loadSound(videoCode, function () {
         play()
         console.log("Playing audio");
         songDurationEl.innerText = new Date(1000 * source.buffer.duration).toISOString().substring(14, 19)
         sourceCount++;
+        searching = false;
       });
     } else {
-      console.log("Invalid link");
+      console.log("Searching/invalid link");
     };
   } else {
     console.log("Enter a youtube link");
