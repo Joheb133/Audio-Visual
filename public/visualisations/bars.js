@@ -122,12 +122,16 @@ export class Bar {
             const x = this.barWidth * index;
             const y = item / 255 * this.height / 2;
 
-            this.canvas.fillStyle = `hsl(271, 95%, ${50 - index/2}%)`;
-            this.canvas.fillRect((this.width / 2) - (x / 2), (this.height / 2 - y) + 1, this.barWidth, y);
-            this.canvas.fillRect((this.width / 2) + (x / 2), (this.height / 2 - y) + 1, this.barWidth, y);
+            if(index % 2 === 0){
+                this.canvas.fillStyle = `hsl(271, 95%, 50%)`;
+            } else{
+                this.canvas.fillStyle = `hsl(271, 95%, 25%)`;
+            }
+            this.canvas.fillRect((this.width / 2) - x, (this.height / 2 - y) + 1, this.barWidth, y);
+            this.canvas.fillRect((this.width / 2) + x, (this.height / 2 - y) + 1, this.barWidth, y);
 
-            this.canvas.fillRect((this.width / 2) - (x / 2), (this.height / 2 + y) - 1, this.barWidth, -y);
-            this.canvas.fillRect((this.width / 2) + (x / 2), (this.height / 2 + y) - 1, this.barWidth, -y);
+            this.canvas.fillRect((this.width / 2) - x, (this.height / 2 + y) - 1, this.barWidth, -y);
+            this.canvas.fillRect((this.width / 2) + x, (this.height / 2 + y) - 1, this.barWidth, -y);
             
         });
     }

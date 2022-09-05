@@ -32,7 +32,8 @@ const songCurrentTimeEl = document.getElementById("song-current-time");
 const songDurationEl = document.getElementById("song-duration");
 
 function convertSeconds(seconds) {
-  return new Date(1000 * seconds).toISOString().substring(14, 19)
+  const s = Math.round(seconds)
+  return new Date(1000 * s).toISOString().substring(14, 19)
 }
 
 function timeElapsed() {
@@ -42,13 +43,16 @@ function timeElapsed() {
     let currentTime = audioCtx.currentTime - startTime;
     if (currentTime !== pastTime) {
       songCurrentTimeEl.innerText = convertSeconds(currentTime)
-      if (currentTime > source.buffer.duration) {
+      console.log(startTime, audioCtx.currentTime, currentTime)
+      if (currentTime > source.buffer.duration || searching == true) {
         clearInterval(time)
       }
     }
     pastTime = currentTime;
   }, 1000)
 }
+
+
 
 
 //search-bar
