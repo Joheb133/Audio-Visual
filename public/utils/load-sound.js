@@ -19,9 +19,9 @@ async function process(Data) {
     source = audioCtx.createBufferSource(); // Create Sound Source
     await audioCtx.decodeAudioData(Data, function (buffer) {
         source.buffer = buffer;
+        source.connect(analyser);
         source.connect(gainNode);
         gainNode.connect(audioCtx.destination);
-        source.connect(analyser);
         source.start(audioCtx.currentTime, 0, source.duration);
     })
 };

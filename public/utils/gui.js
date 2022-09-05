@@ -2,7 +2,7 @@ import { audioCtx, gainNode } from "../app.js";
 import { loadSound, source } from "./load-sound.js";
 
 //play/pause
-const playBtn = document.getElementById("play")
+const playBtn = document.getElementById("play-button")
 const playPathEl = document.getElementById("play-path")
 let playing = false;
 audioCtx.suspend();
@@ -65,7 +65,6 @@ searchBtn.addEventListener("click", () => {
     let videoCode = searchVal.slice(searchVal.indexOf("youtube.com/watch?v=") + "youtube.com/watch?v=".length, searchVal.length);
     if (!searching && videoCode.length > 4) {
       if (sourceCount >= 1) { sourceCount--; pause(); source.stop(); };
-
       console.log("Searching");
       searching = true;
       //need an import

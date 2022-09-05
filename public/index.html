@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Audio Visualizer</title>
     <link rel="stylesheet" href="style.css">
     <script type="module" src="app.js"></script>
     <script type="module" src="./utils/gui.js"></script>
 </head>
 
 <body>
-    <canvas id="canvas" class="listener"></canvas>
+    <canvas id="canvas"></canvas>
     <div class="player">
         <div class="search-bar-wrap">
             <input type="text" id="search-bar" value="https://www.youtube.com/watch?v=4fW6TvEM0m0">
@@ -23,7 +23,7 @@
             </svg>
         </div>
         <div class="music-controls-wrap">
-            <svg xmlns="http://www.w3.org/2000/svg" id="play" width="32px" height="32px"
+            <svg xmlns="http://www.w3.org/2000/svg" id="play-button" width="32px" height="32px"
                 preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16">
                 <path id="play-path" fill="#E6E6E6"
                     d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
