@@ -43,7 +43,6 @@ function timeElapsed() {
     let currentTime = audioCtx.currentTime - startTime;
     if (currentTime !== pastTime) {
       songCurrentTimeEl.innerText = convertSeconds(currentTime)
-      console.log(startTime, audioCtx.currentTime, currentTime)
       if (currentTime > source.buffer.duration || searching == true) {
         clearInterval(time)
       }
@@ -69,6 +68,7 @@ searchBtn.addEventListener("click", () => {
     let videoCode = searchVal.slice(searchVal.indexOf("youtube.com/watch?v=") + "youtube.com/watch?v=".length, searchVal.length);
     if (!searching && videoCode.length > 4) {
       if (sourceCount >= 1) { sourceCount--; pause(); source.stop(); };
+      //feedback that user is searching
       console.log("Searching");
       searching = true;
       //need an import
