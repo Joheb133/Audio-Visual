@@ -59,27 +59,30 @@ const searchBtn = document.getElementById("search-button");
 const searchBar = document.getElementById("search-bar");
 let sourceCount = 0;
 let searching = false;
-let searchVal;
 
 searchBtn.addEventListener("click", () => {
 
-  searchVal = searchBar.value;
-  if (searchVal.match("youtube.com/watch\\?v=")) {
+  let searchVal = searchBar.value;
+  if (searchVal.match("youtube.com/watch\\?v=")) { // IF youtube link then... ELSE "enter yt link"
     let videoCode = searchVal.slice(searchVal.indexOf("youtube.com/watch?v=") + "youtube.com/watch?v=".length, searchVal.length);
-    if (!searching && videoCode.length > 4) {
+    if (!searching && videoCode.length > 1) {
       if (sourceCount >= 1) { sourceCount--; pause(); source.stop(); };
       //feedback that user is searching
       console.log("Searching");
       searching = true;
       //need an import
-      loadSound(videoCode, function () {
+      loadSound(videoCode, function () { //video code, callback, error
         play()
+        console.log("out")
         timeElapsed();
         console.log("Playing audio");
         songDurationEl.innerText = convertSeconds(source.buffer.duration)
         sourceCount++;
-        searching = false;
         searchBar.value = "";
+        searching = false;
+      }, function (){
+        searching = false;
+        console.log("Failed GET Request")
       });
     } else {
       console.log("Searching/invalid link");

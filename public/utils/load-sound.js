@@ -1,18 +1,21 @@
 import { audioCtx, gainNode, analyser } from "../app.js";
 
-export function loadSound(link, callback) {
+export function loadSound(link, callback, error) {
     const request = new XMLHttpRequest();
     request.open("GET", `http://localhost:8000/stream/${link}`, true);
     request.responseType = "arraybuffer";
 
     request.onload = async function () {
-        const Data = request.response;
-        await process(Data);
-        callback();
+        if(request.status === 200){
+            const Data = request.response;
+            await process(Data);
+            callback();
+        } else{
+            error();
+        }
     };
 
     request.send();
-
 }
 let source;
 async function process(Data) {
