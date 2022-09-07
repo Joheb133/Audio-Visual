@@ -2,7 +2,7 @@ import * as BARS from "./visualisations/bars.js"
 // audio init
 const audioCtx = new AudioContext();
 const gainNode = audioCtx.createGain();
-const analyser = new AnalyserNode(audioCtx, {fftSize: 512});
+const analyser = new AnalyserNode(audioCtx, {fftSize: 2048});
 
 export { audioCtx, gainNode, analyser };
 

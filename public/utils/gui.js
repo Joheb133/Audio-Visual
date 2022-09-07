@@ -43,7 +43,7 @@ function timeElapsed() {
     let currentTime = audioCtx.currentTime - startTime;
     if (currentTime !== pastTime) {
       songCurrentTimeEl.innerText = convertSeconds(currentTime)
-      if (currentTime > source.buffer.duration || searching == true) {
+      if (currentTime > source.buffer.duration || searching === true) {
         clearInterval(time)
       }
     }
@@ -55,40 +55,38 @@ function timeElapsed() {
 
 
 //search-bar
-const searchBtn = document.getElementById("search-button");
-const searchBar = document.getElementById("search-bar");
-let sourceCount = 0;
 let searching = false;
+let sourceCount = 0;
 
-searchBtn.addEventListener("click", () => {
+let search = {
+  Btn: document.getElementById("search-button"),
+  Bar: document.getElementById("search-bar"),
+  Loading: document.getElementById("loader"),
+}
 
-  let searchVal = searchBar.value;
+search.Btn.addEventListener("click", () => {
+
+  let searchVal = search.Bar.value;
   if (searchVal.match("youtube.com/watch\\?v=")) { // IF youtube link then... ELSE "enter yt link"
     let videoCode = searchVal.slice(searchVal.indexOf("youtube.com/watch?v=") + "youtube.com/watch?v=".length, searchVal.length);
-    if (!searching && videoCode.length > 1) {
-      if (sourceCount >= 1) { sourceCount--; pause(); source.stop(); };
-      //feedback that user is searching
-      console.log("Searching");
+    if (videoCode.length < 2) { return alert("invalid link")}
+    if (sourceCount >= 1) { sourceCount--; pause(); source.stop(); };
+    search.Btn.style.display = "none";
+    search.Loading.style.display = "inline";
+    loadSound(videoCode, function () { //search & GET audio (using yt code), callback (all the code to run after loudSound), error (handle error)
+      sourceCount++;
       searching = true;
-      //need an import
-      loadSound(videoCode, function () { //video code, callback, error
-        play()
-        console.log("out")
-        timeElapsed();
-        console.log("Playing audio");
-        songDurationEl.innerText = convertSeconds(source.buffer.duration)
-        sourceCount++;
-        searchBar.value = "";
-        searching = false;
-      }, function (){
-        searching = false;
-        console.log("Failed GET Request")
-      });
-    } else {
-      console.log("Searching/invalid link");
-    };
+      play();
+      timeElapsed();
+      search.Btn.style.display = "inline";//styling
+      search.Loading.style.display = "none";
+      search.Bar.value = "";
+      songDurationEl.innerText = convertSeconds(source.buffer.duration)
+    }, function () {
+      console.log("Failed GET Request")
+    });
   } else {
-    console.log("Enter a youtube link");
+    alert("Enter a youtube link");
   };
 });
 

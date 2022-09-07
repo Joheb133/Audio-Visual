@@ -127,11 +127,11 @@ export class Bar {
             } else{
                 this.canvas.fillStyle = `hsl(271, 95%, 25%)`;
             }
-            this.canvas.fillRect((this.width / 2) - x, (this.height / 2 - y) + 1, this.barWidth, y);
-            this.canvas.fillRect((this.width / 2) + x, (this.height / 2 - y) + 1, this.barWidth, y);
+            this.canvas.fillRect((this.width / 2) - x, (this.height / 2 - y), this.barWidth, y);
+            this.canvas.fillRect((this.width / 2) + x, (this.height / 2 - y), this.barWidth, y);
 
-            this.canvas.fillRect((this.width / 2) - x, (this.height / 2 + y) - 1, this.barWidth, -y);
-            this.canvas.fillRect((this.width / 2) + x, (this.height / 2 + y) - 1, this.barWidth, -y);
+            this.canvas.fillRect((this.width / 2) - x, (this.height / 2 + y), this.barWidth, -y);
+            this.canvas.fillRect((this.width / 2) + x, (this.height / 2 + y), this.barWidth, -y);
             
         });
     }
