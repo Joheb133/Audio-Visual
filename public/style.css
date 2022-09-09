@@ -19,6 +19,7 @@ canvas {
     background-color: #1a1a1a;
 }
 
+/*Left*/
 .search-bar-wrap {
     display: flex;
     width: 25%;
@@ -43,11 +44,12 @@ canvas {
 
 .search-bar-ui {
     margin-left: -24px;
+    opacity: 0.5;
 }
 
 
 #search-button:hover {
-    opacity: 0.5;
+    opacity: 1;
     margin-left: -24px;
 }
 
@@ -66,16 +68,22 @@ canvas {
     animation: load 1s linear 0s infinite normal none;
 }
 
+/*Middle*/
 .music-controls-wrap {
     display: flex;
     flex-direction: column;
     width: 50%;
+    height: 100%;
     align-items: center;
+    justify-content: center;
 }
 
-#play-button:hover {
-    opacity: 0.7;
-    transition: 0.1s;
+#play-button{
+    padding-bottom: 5px;
+}
+
+#play-button:hover{
+    transform: scale(1.1);
 }
 
 .music-controls-wrap .progress-bar {
@@ -94,7 +102,18 @@ canvas {
     color: #ebebeb;
 }
 
+/*Right*/
 .volume-wrap {
     width: 25%;
     text-align: center;
+}
+
+#volume {
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 6px;
+    background: #ebebeb;
+    outline: none;
+    opacity: 0.7;
+    vertical-align: text-top;
 }

@@ -36,14 +36,17 @@ function convertSeconds(seconds) {
   return new Date(1000 * s).toISOString().substring(14, 19)
 }
 
+let currentTime, time;
 function timeElapsed() {
-  const startTime = audioCtx.currentTime;
+  let startTime = audioCtx.currentTime;
   let pastTime = 0;
-  const time = setInterval(() => {
-    let currentTime = audioCtx.currentTime - startTime;
+  time = setInterval(() => {
+    currentTime = audioCtx.currentTime - startTime;
     if (currentTime !== pastTime) {
       songCurrentTimeEl.innerText = convertSeconds(currentTime)
-      if (currentTime > source.buffer.duration || searching === true) {
+      progressBar.value = currentTime;
+      if (currentTime > source.buffer.duration) {
+        console.log("cleared")
         clearInterval(time)
       }
     }
@@ -51,13 +54,15 @@ function timeElapsed() {
   }, 1000)
 }
 
-
+progressBar.addEventListener('input', () =>{
+  //source.start(audioCtx + progressBar.value)
+  if(progressBar.value > currentTime) source.start(audioCtx + progressBar.value)
+  else if(progressBar.value < currentTime) source.start(audioCtx - progressBar.value) 
+})
 
 
 //search-bar
-let searching = false;
 let sourceCount = 0;
-
 let search = {
   Btn: document.getElementById("search-button"),
   Bar: document.getElementById("search-bar"),
@@ -70,17 +75,18 @@ search.Btn.addEventListener("click", () => {
   if (searchVal.match("youtube.com/watch\\?v=")) { // IF youtube link then... ELSE "enter yt link"
     let videoCode = searchVal.slice(searchVal.indexOf("youtube.com/watch?v=") + "youtube.com/watch?v=".length, searchVal.length);
     if (videoCode.length < 2) { return alert("invalid link")}
-    if (sourceCount >= 1) { sourceCount--; pause(); source.stop(); };
+    if (sourceCount >= 1) { sourceCount--; pause(); source.stop(); clearInterval(time)};
     search.Btn.style.display = "none";
     search.Loading.style.display = "inline";
+
     loadSound(videoCode, function () { //search & GET audio (using yt code), callback (all the code to run after loudSound), error (handle error)
       sourceCount++;
-      searching = true;
       play();
       timeElapsed();
       search.Btn.style.display = "inline";//styling
       search.Loading.style.display = "none";
       search.Bar.value = "";
+      progressBar.max = source.buffer.duration;
       songDurationEl.innerText = convertSeconds(source.buffer.duration)
     }, function () {
       console.log("Failed GET Request")

@@ -2,7 +2,7 @@ import * as BARS from "./visualisations/bars.js"
 // audio init
 const audioCtx = new AudioContext();
 const gainNode = audioCtx.createGain();
-const analyser = new AnalyserNode(audioCtx, {fftSize: 2048});
+const analyser = new AnalyserNode(audioCtx, {fftSize: 256});
 
 export { audioCtx, gainNode, analyser };
 
@@ -11,14 +11,17 @@ export { audioCtx, gainNode, analyser };
 const canvas = document.getElementById("canvas");
 const canvasCtx = canvas.getContext("2d");
 
+const bar = new BARS.Bar(canvasCtx, analyser);
+
 function canvasResize(){
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight - 88;
+  bar.update(canvas.width, canvas.height)
 };
 
 window.addEventListener("resize", canvasResize, false);
 
-const bar = new BARS.Bar(canvasCtx, analyser);
+
 
 canvasResize();
 
@@ -29,8 +32,9 @@ function draw() {
   canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
   
   bar.draw();
-  bar.update(canvas.width, canvas.height)
-
+  
 }
 
 draw();
+
+//canvas.addEventListener("click", ()=>{bar.draw()}, false)
