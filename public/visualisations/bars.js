@@ -2,7 +2,7 @@ export class Bar {
     constructor(canvas, analyser, width, height) {
         this.canvas = canvas,
         this.analyser = analyser,
-        this.analyser.fftSize = 512
+        this.analyser.fftSize = 2048
         this.width = width,
         this.height = height
     }

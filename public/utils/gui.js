@@ -1,5 +1,6 @@
 import { audioCtx, gainNode } from "../app.js";
 import { loadSound, source } from "./load-sound.js";
+//import { loadMetadata } from "./load-metadata.js";
 
 //play/pause
 const playBtn = document.getElementById("play-button")
@@ -42,24 +43,16 @@ function timeElapsed() {
   let pastTime = 0;
   time = setInterval(() => {
     currentTime = audioCtx.currentTime - startTime;
-    if (currentTime !== pastTime) {
+    if (currentTime !== pastTime && playing) {
       songCurrentTimeEl.innerText = convertSeconds(currentTime)
       progressBar.value = currentTime;
       if (currentTime > source.buffer.duration) {
-        console.log("cleared")
         clearInterval(time)
       }
     }
     pastTime = currentTime;
-  }, 1000)
+  }, 100)
 }
-
-progressBar.addEventListener('input', () =>{
-  //source.start(audioCtx + progressBar.value)
-  if(progressBar.value > currentTime) source.start(audioCtx + progressBar.value)
-  else if(progressBar.value < currentTime) source.start(audioCtx - progressBar.value) 
-})
-
 
 //search-bar
 let sourceCount = 0;
@@ -67,6 +60,7 @@ let search = {
   Btn: document.getElementById("search-button"),
   Bar: document.getElementById("search-bar"),
   Loading: document.getElementById("loader"),
+  Title: document.getElementById("search-title")
 }
 
 search.Btn.addEventListener("click", () => {
@@ -74,27 +68,46 @@ search.Btn.addEventListener("click", () => {
   let searchVal = search.Bar.value;
   if (searchVal.match("youtube.com/watch\\?v=")) { // IF youtube link then... ELSE "enter yt link"
     let videoCode = searchVal.slice(searchVal.indexOf("youtube.com/watch?v=") + "youtube.com/watch?v=".length, searchVal.length);
-    if (videoCode.length < 2) { return alert("invalid link")}
-    if (sourceCount >= 1) { sourceCount--; pause(); source.stop(); clearInterval(time)};
+    if (videoCode.length < 2) { return alert("invalid link") }
+    if (sourceCount >= 1) { sourceCount--; pause(); source.stop(); clearInterval(time) };
     search.Btn.style.display = "none";
     search.Loading.style.display = "inline";
 
     loadSound(videoCode, function () { //search & GET audio (using yt code), callback (all the code to run after loudSound), error (handle error)
       sourceCount++;
+      documentStlying();
       play();
       timeElapsed();
-      search.Btn.style.display = "inline";//styling
-      search.Loading.style.display = "none";
-      search.Bar.value = "";
-      progressBar.max = source.buffer.duration;
-      songDurationEl.innerText = convertSeconds(source.buffer.duration)
     }, function () {
       console.log("Failed GET Request")
     });
+
+    loadMetadata(videoCode)
   } else {
     alert("Enter a youtube link");
   };
 });
+
+function documentStlying() {//styling - It looks so dirty in loadSound()
+  search.Btn.style.display = "inline";
+  search.Loading.style.display = "none";
+  search.Bar.value = "";
+  progressBar.max = source.buffer.duration;
+  progressBar.value = 0;
+  songCurrentTimeEl.innerText = convertSeconds(0);
+  songDurationEl.innerText = convertSeconds(source.buffer.duration);
+};
+
+function loadMetadata(link) {
+  const request = new XMLHttpRequest();
+  request.open("GET", `http://localhost:8000/stream/metadata/${link}`, true);
+
+  request.onload = function () {
+    search.Title.innerText = request.response
+  }
+
+  request.send()
+}
 
 //volume
 const volumeControl = document.getElementById("volume");

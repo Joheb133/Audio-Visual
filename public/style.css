@@ -2,6 +2,7 @@ body {
     padding: 0;
     margin: 0;
     background-color: #f1f1f1;
+    font-family: 'Montserrat', sans-serif;
 }
 
 canvas {
@@ -20,9 +21,24 @@ canvas {
 }
 
 /*Left*/
-.search-bar-wrap {
-    display: flex;
+.search-container {
     width: 25%;
+    text-align: center;
+}
+
+#search-title {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+    font-size: 11px;
+}
+
+.search-bar-wrap{
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -83,7 +99,7 @@ canvas {
 }
 
 #play-button:hover{
-    transform: scale(1.1);
+    transform: scale(1.08);
 }
 
 .music-controls-wrap .progress-bar {
@@ -98,14 +114,19 @@ canvas {
 }
 
 .progress-bar span {
-    font-family: 'Courier New', Courier, monospace;
+    font-weight: 300;
     color: #ebebeb;
+    letter-spacing: 1px;
 }
 
 /*Right*/
 .volume-wrap {
     width: 25%;
     text-align: center;
+}
+
+.volume-wrap svg {
+    opacity: 0.5;
 }
 
 #volume {
