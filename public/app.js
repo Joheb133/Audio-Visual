@@ -21,8 +21,6 @@ function canvasResize(){
 
 window.addEventListener("resize", canvasResize, false);
 
-
-
 canvasResize();
 
 // draw an oscilloscope of the current audio source

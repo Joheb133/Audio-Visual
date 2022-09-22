@@ -100,7 +100,7 @@ function documentStlying() {//styling - It looks so dirty in loadSound()
 
 function loadMetadata(link) {
   const request = new XMLHttpRequest();
-  request.open("GET", `http://localhost:8000/stream/metadata/${link}`, true);
+  request.open("GET", `http://${self.location.host}/stream/metadata/${link}`, true);
 
   request.onload = function () {
     search.Title.innerText = request.response
