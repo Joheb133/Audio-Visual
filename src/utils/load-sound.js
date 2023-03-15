@@ -8,6 +8,7 @@ export function loadSound(link, callback, error) {
     request.onload = async function () {
         if(request.status === 200){
             const Data = request.response;
+            console.log(Data)
             await process(Data);
             callback();
         } else{

@@ -1,6 +1,5 @@
 import { audioCtx, gainNode } from "../app.js";
 import { loadSound, source } from "./load-sound.js";
-//import { loadMetadata } from "./load-metadata.js";
 
 //play/pause
 const playBtn = document.getElementById("play-button")
